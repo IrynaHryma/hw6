@@ -4,17 +4,17 @@ from datetime import datetime
 
 class Field:
     def __init__(self, value):
-        self._value = None
+        self.__value = None
         self.value = value
 
     @property
     def value(self):
-        return self._value
+        return self.__value
 
     @value.setter
     def value(self, new_value):
         if new_value:
-            self._value = new_value
+            self.__value = new_value
 
     def __str__(self):
         return str(self.value)
@@ -33,13 +33,13 @@ class Phone(Field):
 
     @property
     def value(self):
-        return self._value
+        return self.__value
 
     @value.setter
     def value(self, new_value):
         new_value = str(new_value)
         if new_value.isdigit() and len(new_value) == 10:
-            self._value = new_value
+            self.__value = new_value
         else:
             raise ValueError("Number not valid")
 
@@ -110,6 +110,6 @@ if __name__ == "__main__":
     print(phone1.value)
     ab.add_record(record)
     record.add_phone(phone1)
-    birthday = Birthday("17/07/2023")  
+    birthday = Birthday("20/07/2023")  
     record.birthday = birthday
     print(record.days_to_birthday()) 
