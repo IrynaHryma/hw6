@@ -44,6 +44,22 @@ class Phone(Field):
             raise ValueError("Number not valid")
 
 
+class Birthday(Field):
+    def __init__(self, value):
+        super().__init__(value)
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, new_value):
+        try:
+            self._value = datetime.strptime(new_value, '%d/%m/%Y').date()
+        except ValueError:
+            raise ValueError("Date is not valid")
+
+
 class Record:
     def __init__(self, name: Name, phone: Phone = None, birthday=None):
         self.name = name
@@ -63,7 +79,7 @@ class Record:
             if old_phone.value == phone.value:
                 self.phones[index] = new_phone
                 return f"Old phone {old_phone} is changed to new phone {new_phone}."
-        
+
         return f"{old_phone} is not present in contact {self.name}."
 
     def days_to_birthday(self):
@@ -75,26 +91,21 @@ class Record:
         return f"{self.name}: {', '.join(str(p) for p in self.phones)}"
 
 
-class Birthday(Field):
-    def __init__(self, value):
-        super().__init__(value)
-
-    @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def value(self, new_value):
-        try:
-            self._value = datetime.strptime(new_value, '%d/%m/%Y').date()
-        except ValueError:
-            raise ValueError("Date is not valid")
-
-
 class AddressBook(UserDict):
     def add_record(self, record: Record):
         self.data[str(record.name)] = record
         return f'Contact {record} add success.'
+
+    def __iter__(self):
+        self.current_record = 0
+        return self
+
+    def __next__(self):
+        if self.current_record < len(self.data):
+            self.current_record += 1
+            return self.current_record
+        else:
+            raise StopIteration
 
     def __str__(self) -> str:
         return "\n".join(str(r) for r in self.data.values())
@@ -110,6 +121,6 @@ if __name__ == "__main__":
     print(phone1.value)
     ab.add_record(record)
     record.add_phone(phone1)
-    birthday = Birthday("20/07/2023")  
+    birthday = Birthday("21/07/2023")
     record.birthday = birthday
-    print(record.days_to_birthday()) 
+    print(record.days_to_birthday())
