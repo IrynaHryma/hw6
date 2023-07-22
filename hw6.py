@@ -65,6 +65,7 @@ class Record:
         self.name = name
         self.phones = []
         self.birthday = birthday
+        self.current_record = 0
         if phone:
             self.phones.append(phone)
 
@@ -97,7 +98,6 @@ class AddressBook(UserDict):
         return f'Contact {record} add success.'
 
     def __iter__(self):
-        self.current_record = 0
         return self
 
     def __next__(self):
@@ -111,16 +111,4 @@ class AddressBook(UserDict):
         return "\n".join(str(r) for r in self.data.values())
 
 
-if __name__ == "__main__":
-    ab = AddressBook()
-    name = Name("Bill Gates")
-    name.value = "Bill Gates"
-    record = Record(name)
-    phone1 = Phone("2617627334")
-    print(name.value)
-    print(phone1.value)
-    ab.add_record(record)
-    record.add_phone(phone1)
-    birthday = Birthday("21/07/2023")
-    record.birthday = birthday
-    print(record.days_to_birthday())
+
