@@ -12,6 +12,6 @@ if __name__ == "__main__":
     ab.add_record(record)
     record.add_phone(phone1)
 
-    birthday = Birthday("22/07/2023")
+    birthday = Birthday("23/07/2023")
     record.birthday = birthday
     print(record.days_to_birthday())
