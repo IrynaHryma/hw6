@@ -1,4 +1,4 @@
-from hw6 import Name, Phone, Birthday, Record, AddressBook
+from address_book import Name, Phone, Birthday, Record, AddressBook
 
 if __name__ == "__main__":
     ab = AddressBook()
